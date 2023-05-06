@@ -191,7 +191,7 @@ class _RejectedOrderListItemsState extends State<RejectedOrderListItems> {
                         title: Row(
                           children: <Widget>[
                             Expanded(
-                              child: RaisedButton(
+                              child: MaterialButton(
                                 onPressed: () async {
 
                                   _displayDialog(context, index);
@@ -251,7 +251,8 @@ class _RejectedOrderListItemsState extends State<RejectedOrderListItems> {
               ),
             ),
             actions: <Widget>[
-              new FlatButton(
+              new MaterialButton(
+                elevation: 0,
                 child: new Text(
                   'SUBMIT',
                   style: TextStyle(

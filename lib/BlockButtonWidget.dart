@@ -17,10 +17,11 @@ class BlockButtonWidget extends StatelessWidget {
           BoxShadow(color: this.color.withOpacity(0.2),blurRadius: 13,offset: Offset(0,3)),
         ],
       ),
-      child: FlatButton(
+      child: MaterialButton(
         onPressed: this.onPressed,
         padding: EdgeInsets.symmetric(horizontal: 20,vertical: 14),
         color: this.color,
+        elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Row(
           crossAxisAlignment:CrossAxisAlignment.center,
