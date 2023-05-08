@@ -51,7 +51,8 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
   UploadImageRequestModel uploadImageRequestModel =
   new UploadImageRequestModel(token: '', booking_id: '', image: '');
 
-  final serverText = TextEditingController(text: "https://meet.jit.si/");
+  final serverText = TextEditingController(text: "https://meeting.lokhes.in");
+  // final serverText = TextEditingController(text: "https://meet.jit.si/");
 
   // final serverText = TextEditingController(text: "https://jitsi.tatoobooks.com/");
   final roomText = TextEditingController(text: "plugintestroom");
@@ -63,6 +64,7 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
   bool isAudioOnly = true;
   bool isAudioMuted = true;
   bool isVideoMuted = true;
+  var video_url = "";
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,6 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
       appBar: AppBar(
         title: Text("Accepted Order".tr, style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        // backgroundColor: Colors.lightBlue[800],
         backgroundColor: Colors.lightBlue[800],
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -348,7 +349,8 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
                                 onConferenceTerminated:
                                 _onConferenceTerminated,
                                 onError: _onError));
-                            _joinMeeting(jsonResponse['room_code']);
+                            video_url = jsonResponse['video_url'];
+                            _joinMeeting(jsonResponse['room_code'], jsonResponse['video_url']);
                           }
                         } else if (jsonResponse['status'] == "400") {
                           Navigator.of(context, rootNavigator: true).pop();
@@ -718,7 +720,7 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
     );
   }
 
-  _joinMeeting(String room_code) async {
+  _joinMeeting(String room_code, String video_url) async {
     // String serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
 
     // Enable or disable any feature flag here
@@ -740,7 +742,8 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
     // Define meetings options here
     // var options = JitsiMeetingOptions(room: roomText.text)
     var options = JitsiMeetingOptions(room: room_code)
-      ..serverURL = serverText.text
+      // ..serverURL = serverText.text
+      ..serverURL = video_url
       ..subject = subjectText.text
       ..userDisplayName = nameText.text
       ..userEmail = emailText.text
