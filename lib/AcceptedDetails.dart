@@ -10,7 +10,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
+// import 'package:jitsi_meet/jitsi_meet.dart';
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'AcceptedBookingsResponseModel.dart';
@@ -343,12 +344,12 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
                                 toastLength: Toast.LENGTH_SHORT);
                             // Get.showSnackbar(Ui.RoomCodeSnackBar(message: "You can enter the room only in "+jsonResponse['booking_date']+" at "+jsonResponse['avail_time']+""));
                           } else {
-                            JitsiMeet.addListener(JitsiMeetingListener(
-                                onConferenceWillJoin: _onConferenceWillJoin,
-                                onConferenceJoined: _onConferenceJoined,
-                                onConferenceTerminated:
-                                _onConferenceTerminated,
-                                onError: _onError));
+                            // JitsiMeet.addListener(JitsiMeetingListener(
+                            //     onConferenceWillJoin: _onConferenceWillJoin,
+                            //     onConferenceJoined: _onConferenceJoined,
+                            //     onConferenceTerminated:
+                            //     _onConferenceTerminated,
+                            //     onError: _onError));
                             video_url = jsonResponse['video_url'];
                             _joinMeeting(jsonResponse['room_code'], jsonResponse['video_url']);
                           }
@@ -720,68 +721,140 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
     );
   }
 
-  _joinMeeting(String room_code, String video_url) async {
-    // String serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
+  // _joinMeeting(String room_code, String video_url) async {
+  //   // String serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
+  //
+  //   // Enable or disable any feature flag here
+  //   // If feature flag are not provided, default values will be used
+  //   // Full list of feature flags (and defaults) available in the README
+  //   Map<FeatureFlagEnum, bool> featureFlags = {
+  //     FeatureFlagEnum.WELCOME_PAGE_ENABLED: false,
+  //   };
+  //   if (!kIsWeb) {
+  //     // Here is an example, disabling features for each platform
+  //     if (Platform.isAndroid) {
+  //       // Disable ConnectionService usage on Android to avoid issues (see README)
+  //       featureFlags[FeatureFlagEnum.CALL_INTEGRATION_ENABLED] = false;
+  //     } else if (Platform.isIOS) {
+  //       // Disable PIP on iOS as it looks weird
+  //       featureFlags[FeatureFlagEnum.PIP_ENABLED] = false;
+  //     }
+  //   }
+  //   // Define meetings options here
+  //   // var options = JitsiMeetingOptions(room: roomText.text)
+  //   var options = JitsiMeetingOptions(room: room_code)
+  //     // ..serverURL = serverText.text
+  //     ..serverURL = video_url
+  //     ..subject = subjectText.text
+  //     ..userDisplayName = nameText.text
+  //     ..userEmail = emailText.text
+  //     ..iosAppBarRGBAColor = iosAppBarRGBAColor.text
+  //     ..audioOnly = isAudioOnly
+  //     ..audioMuted = isAudioMuted
+  //     ..videoMuted = isVideoMuted
+  //     ..featureFlags.addAll(featureFlags)
+  //     ..webOptions = {
+  //       // "roomName": roomText.text,
+  //       "roomName": room_code,
+  //       "width": "100%",
+  //       "height": "100%",
+  //       "enableWelcomePage": false,
+  //       "chromeExtensionBanner": null,
+  //       "userInfo": {"displayName": nameText.text}
+  //     };
+  //
+  //   debugPrint("JitsiMeetingOptions: $options");
+  //   await JitsiMeet.joinMeeting(
+  //     options,
+  //     listener: JitsiMeetingListener(
+  //         onConferenceWillJoin: (message) {
+  //           debugPrint("${options.room} will join with message: $message");
+  //         },
+  //         onConferenceJoined: (message) {
+  //           debugPrint("${options.room} joined with message: $message");
+  //         },
+  //         onConferenceTerminated: (message) {
+  //           debugPrint("${options.room} terminated with message: $message");
+  //         },
+  //         genericListeners: [
+  //           JitsiGenericListener(
+  //               eventName: 'readyToClose',
+  //               callback: (dynamic message) {
+  //                 debugPrint("readyToClose callback");
+  //               }),
+  //         ]),
+  //   );
+  // }
 
-    // Enable or disable any feature flag here
-    // If feature flag are not provided, default values will be used
-    // Full list of feature flags (and defaults) available in the README
-    Map<FeatureFlagEnum, bool> featureFlags = {
-      FeatureFlagEnum.WELCOME_PAGE_ENABLED: false,
-    };
-    if (!kIsWeb) {
-      // Here is an example, disabling features for each platform
-      if (Platform.isAndroid) {
-        // Disable ConnectionService usage on Android to avoid issues (see README)
-        featureFlags[FeatureFlagEnum.CALL_INTEGRATION_ENABLED] = false;
-      } else if (Platform.isIOS) {
-        // Disable PIP on iOS as it looks weird
-        featureFlags[FeatureFlagEnum.PIP_ENABLED] = false;
-      }
-    }
+  _joinMeeting(String room_code, String video_url) async {
+    String? serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
+
+    Map<FeatureFlag, Object> featureFlags = {};
+
     // Define meetings options here
-    // var options = JitsiMeetingOptions(room: roomText.text)
-    var options = JitsiMeetingOptions(room: room_code)
-      // ..serverURL = serverText.text
-      ..serverURL = video_url
-      ..subject = subjectText.text
-      ..userDisplayName = nameText.text
-      ..userEmail = emailText.text
-      ..iosAppBarRGBAColor = iosAppBarRGBAColor.text
-      ..audioOnly = isAudioOnly
-      ..audioMuted = isAudioMuted
-      ..videoMuted = isVideoMuted
-      ..featureFlags.addAll(featureFlags)
-      ..webOptions = {
-        // "roomName": roomText.text,
-        "roomName": room_code,
-        "width": "100%",
-        "height": "100%",
-        "enableWelcomePage": false,
-        "chromeExtensionBanner": null,
-        "userInfo": {"displayName": nameText.text}
-      };
+    var options = JitsiMeetingOptions(
+      roomNameOrUrl: room_code,
+      serverUrl: video_url,
+      subject: subjectText.text,
+      // token: tokenText.text,
+      isAudioMuted: isAudioMuted,
+      isAudioOnly: isAudioOnly,
+      isVideoMuted: isVideoMuted,
+      userDisplayName: nameText.text,
+      userEmail: emailText.text,
+      featureFlags: featureFlags,
+    );
 
     debugPrint("JitsiMeetingOptions: $options");
-    await JitsiMeet.joinMeeting(
-      options,
+    await JitsiMeetWrapper.joinMeeting(
+      options: options,
       listener: JitsiMeetingListener(
-          onConferenceWillJoin: (message) {
-            debugPrint("${options.room} will join with message: $message");
-          },
-          onConferenceJoined: (message) {
-            debugPrint("${options.room} joined with message: $message");
-          },
-          onConferenceTerminated: (message) {
-            debugPrint("${options.room} terminated with message: $message");
-          },
-          genericListeners: [
-            JitsiGenericListener(
-                eventName: 'readyToClose',
-                callback: (dynamic message) {
-                  debugPrint("readyToClose callback");
-                }),
-          ]),
+        onOpened: () => debugPrint("onOpened"),
+        onConferenceWillJoin: (url) {
+          debugPrint("onConferenceWillJoin: url: $url");
+        },
+        onConferenceJoined: (url) {
+          debugPrint("onConferenceJoined: url: $url");
+        },
+        onConferenceTerminated: (url, error) {
+          debugPrint("onConferenceTerminated: url: $url, error: $error");
+        },
+        onAudioMutedChanged: (isMuted) {
+          debugPrint("onAudioMutedChanged: isMuted: $isMuted");
+        },
+        onVideoMutedChanged: (isMuted) {
+          debugPrint("onVideoMutedChanged: isMuted: $isMuted");
+        },
+        onScreenShareToggled: (participantId, isSharing) {
+          debugPrint(
+            "onScreenShareToggled: participantId: $participantId, "
+                "isSharing: $isSharing",
+          );
+        },
+        onParticipantJoined: (email, name, role, participantId) {
+          debugPrint(
+            "onParticipantJoined: email: $email, name: $name, role: $role, "
+                "participantId: $participantId",
+          );
+        },
+        onParticipantLeft: (participantId) {
+          debugPrint("onParticipantLeft: participantId: $participantId");
+        },
+        onParticipantsInfoRetrieved: (participantsInfo, requestId) {
+          debugPrint(
+            "onParticipantsInfoRetrieved: participantsInfo: $participantsInfo, "
+                "requestId: $requestId",
+          );
+        },
+        onChatMessageReceived: (senderId, message, isPrivate) {
+          debugPrint(
+            "onChatMessageReceived: senderId: $senderId, message: $message, "
+                "isPrivate: $isPrivate",
+          );
+        },
+        onChatToggled: (isOpen) => debugPrint("onChatToggled: isOpen: $isOpen"),
+        onClosed: () => debugPrint("onClosed"),
+      ),
     );
   }
 

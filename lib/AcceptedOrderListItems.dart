@@ -13,7 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
+// import 'package:jitsi_meet/jitsi_meet.dart';
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'AcceptedBookingsResponseModel.dart';
@@ -610,85 +610,85 @@ class _AcceptedOrderListItemsState extends State<AcceptedOrderListItems> {
     );
   }
 
-  _joinMeeting(String room_code) async {
-    // String serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
+  // _joinMeeting(String room_code) async {
+  //   // String serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
+  //
+  //   // Enable or disable any feature flag here
+  //   // If feature flag are not provided, default values will be used
+  //   // Full list of feature flags (and defaults) available in the README
+  //   Map<FeatureFlagEnum, bool> featureFlags = {
+  //     FeatureFlagEnum.WELCOME_PAGE_ENABLED: false,
+  //   };
+  //   if (!kIsWeb) {
+  //     // Here is an example, disabling features for each platform
+  //     if (Platform.isAndroid) {
+  //       // Disable ConnectionService usage on Android to avoid issues (see README)
+  //       featureFlags[FeatureFlagEnum.CALL_INTEGRATION_ENABLED] = false;
+  //     } else if (Platform.isIOS) {
+  //       // Disable PIP on iOS as it looks weird
+  //       featureFlags[FeatureFlagEnum.PIP_ENABLED] = false;
+  //     }
+  //   }
+  //   // Define meetings options here
+  //   // var options = JitsiMeetingOptions(room: roomText.text)
+  //   var options = JitsiMeetingOptions(room: room_code)
+  //     ..serverURL = serverText.text
+  //     ..subject = subjectText.text
+  //     ..userDisplayName = nameText.text
+  //     ..userEmail = emailText.text
+  //     ..iosAppBarRGBAColor = iosAppBarRGBAColor.text
+  //     ..audioOnly = isAudioOnly
+  //     ..audioMuted = isAudioMuted
+  //     ..videoMuted = isVideoMuted
+  //     ..featureFlags.addAll(featureFlags)
+  //     ..webOptions = {
+  //       // "roomName": roomText.text,
+  //       "roomName": room_code,
+  //       "width": "100%",
+  //       "height": "100%",
+  //       "enableWelcomePage": false,
+  //       "chromeExtensionBanner": null,
+  //       "userInfo": {"displayName": nameText.text}
+  //     };
+  //
+  //   debugPrint("JitsiMeetingOptions: $options");
+  //   await JitsiMeet.joinMeeting(
+  //     options,
+  //     listener: JitsiMeetingListener(
+  //         onConferenceWillJoin: (message) {
+  //           debugPrint("${options.room} will join with message: $message");
+  //         },
+  //         onConferenceJoined: (message) {
+  //           debugPrint("${options.room} joined with message: $message");
+  //         },
+  //         onConferenceTerminated: (message) {
+  //           debugPrint("${options.room} terminated with message: $message");
+  //         },
+  //         genericListeners: [
+  //           JitsiGenericListener(
+  //               eventName: 'readyToClose',
+  //               callback: (dynamic message) {
+  //                 debugPrint("readyToClose callback");
+  //               }),
+  //         ]),
+  //   );
+  // }
 
-    // Enable or disable any feature flag here
-    // If feature flag are not provided, default values will be used
-    // Full list of feature flags (and defaults) available in the README
-    Map<FeatureFlagEnum, bool> featureFlags = {
-      FeatureFlagEnum.WELCOME_PAGE_ENABLED: false,
-    };
-    if (!kIsWeb) {
-      // Here is an example, disabling features for each platform
-      if (Platform.isAndroid) {
-        // Disable ConnectionService usage on Android to avoid issues (see README)
-        featureFlags[FeatureFlagEnum.CALL_INTEGRATION_ENABLED] = false;
-      } else if (Platform.isIOS) {
-        // Disable PIP on iOS as it looks weird
-        featureFlags[FeatureFlagEnum.PIP_ENABLED] = false;
-      }
-    }
-    // Define meetings options here
-    // var options = JitsiMeetingOptions(room: roomText.text)
-    var options = JitsiMeetingOptions(room: room_code)
-      ..serverURL = serverText.text
-      ..subject = subjectText.text
-      ..userDisplayName = nameText.text
-      ..userEmail = emailText.text
-      ..iosAppBarRGBAColor = iosAppBarRGBAColor.text
-      ..audioOnly = isAudioOnly
-      ..audioMuted = isAudioMuted
-      ..videoMuted = isVideoMuted
-      ..featureFlags.addAll(featureFlags)
-      ..webOptions = {
-        // "roomName": roomText.text,
-        "roomName": room_code,
-        "width": "100%",
-        "height": "100%",
-        "enableWelcomePage": false,
-        "chromeExtensionBanner": null,
-        "userInfo": {"displayName": nameText.text}
-      };
-
-    debugPrint("JitsiMeetingOptions: $options");
-    await JitsiMeet.joinMeeting(
-      options,
-      listener: JitsiMeetingListener(
-          onConferenceWillJoin: (message) {
-            debugPrint("${options.room} will join with message: $message");
-          },
-          onConferenceJoined: (message) {
-            debugPrint("${options.room} joined with message: $message");
-          },
-          onConferenceTerminated: (message) {
-            debugPrint("${options.room} terminated with message: $message");
-          },
-          genericListeners: [
-            JitsiGenericListener(
-                eventName: 'readyToClose',
-                callback: (dynamic message) {
-                  debugPrint("readyToClose callback");
-                }),
-          ]),
-    );
-  }
-
-  void _onConferenceWillJoin(message) {
-    debugPrint("_onConferenceWillJoin broadcasted with message: $message");
-  }
-
-  void _onConferenceJoined(message) {
-    debugPrint("_onConferenceJoined broadcasted with message: $message");
-  }
-
-  void _onConferenceTerminated(message) {
-    debugPrint("_onConferenceTerminated broadcasted with message: $message");
-  }
-
-  _onError(error) {
-    debugPrint("_onError broadcasted: $error");
-  }
+  // void _onConferenceWillJoin(message) {
+  //   debugPrint("_onConferenceWillJoin broadcasted with message: $message");
+  // }
+  //
+  // void _onConferenceJoined(message) {
+  //   debugPrint("_onConferenceJoined broadcasted with message: $message");
+  // }
+  //
+  // void _onConferenceTerminated(message) {
+  //   debugPrint("_onConferenceTerminated broadcasted with message: $message");
+  // }
+  //
+  // _onError(error) {
+  //   debugPrint("_onError broadcasted: $error");
+  // }
 
   void selectImages(int index) async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
