@@ -786,6 +786,7 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
   //   );
   // }
 
+
   _joinMeeting(String room_code, String video_url) async {
     String? serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
 
