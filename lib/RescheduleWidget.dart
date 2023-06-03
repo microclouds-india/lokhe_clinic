@@ -244,7 +244,7 @@ class _RescheduleWidgetState extends State<RescheduleWidget> {
                                                               "0"
                                                           ? Colors.grey[100]
                                                           : Get.theme
-                                                              ?.accentColor
+                                                              ?.colorScheme.secondary
                                                               .withOpacity(0.1),
                                                 ),
                                                 onPressed: () {

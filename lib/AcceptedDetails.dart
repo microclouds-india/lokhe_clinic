@@ -670,12 +670,13 @@ class _AcceptedDetailState extends State<AcceptedDetail> {
                     // Fluttertoast.showToast(msg: "response: " + response.body, toastLength: Toast.LENGTH_SHORT);
                     try {
                       if (response.statusCode == 200) {
-                        var jsonResponse = convert.jsonDecode(response.body)
-                        as Map<String, dynamic>;
+                        var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
                         if (jsonResponse['status'] == "200") {
                           Navigator.of(context, rootNavigator: true).pop();
-                          Navigator.of(context, rootNavigator: true).pop();
+                          Navigator.of(context, rootNavigator: false);
                           // getAllBookings(acceptedBookingsRequestModel);
+                          // Get.back();
+                          Fluttertoast.showToast( msg: "Success", toastLength: Toast.LENGTH_SHORT);
                         } else if (jsonResponse['status'] == "400") {
                           Navigator.of(context, rootNavigator: true).pop();
                           // Fluttertoast.showToast( msg: "There is no timeslot in "+formattedDate.toString(), toastLength: Toast.LENGTH_SHORT);
